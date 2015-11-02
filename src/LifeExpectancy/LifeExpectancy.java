@@ -17,10 +17,30 @@ import java.util.Map;
  * Java app for making a map to display life expectancy around the world Created by dank on 10/17/15.
  */
 public class LifeExpectancy extends PApplet {
+    /**
+     * The Map.
+     */
+
     UnfoldingMap           map;
+    /**
+     * The Life exp map.
+     */
+
     HashMap<String, Float> lifeExpMap;
+    /**
+     * The Life exp by country.
+     */
+
     Map<String, Float>     lifeExpByCountry;
+    /**
+     * The Countries.
+     */
+
     List<Feature>          countries;
+    /**
+     * The Country markers.
+     */
+
     List<Marker>           countryMarkers;
 
     public void setup() {
