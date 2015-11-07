@@ -46,7 +46,7 @@ public class EarthquakeCityMap extends PApplet {
     private String earthquakesURL = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.atom";
 
     // The files containing city names and info and country names and info
-    private String cityFile    = "city-data.json";
+    private String cityFile = "city-data.json";
     private String countryFile = "countries.geo.json";
 
     // The map
@@ -66,8 +66,7 @@ public class EarthquakeCityMap extends PApplet {
         if (offline) {
             map = new UnfoldingMap(this, 200, 50, 650, 600, new MBTilesMapProvider(mbTilesString));
             earthquakesURL = "2.5_week.atom";  // The same feed, but saved August 7, 2015
-        }
-        else {
+        } else {
             map = new UnfoldingMap(this, 200, 50, 650, 600, new Google.GoogleMapProvider());
             // IF YOU WANT TO TEST WITH A LOCAL FILE, uncomment the next line
             //earthquakesURL = "2.5_week.atom";
@@ -80,7 +79,7 @@ public class EarthquakeCityMap extends PApplet {
         //earthquakesURL = "test2.atom";
 
         // WHEN TAKING THIS QUIZ: Uncomment the next line
-        //earthquakesURL = "quiz1.atom";
+        // earthquakesURL = "quiz1.atom";
 
         // (2) Reading in earthquake data and geometric properties
         //     STEP 1: load country features and markers
@@ -97,7 +96,7 @@ public class EarthquakeCityMap extends PApplet {
         //     STEP 3: read in earthquake RSS feed
         List<PointFeature> earthquakes = ParseFeed.parseEarthquake(this, earthquakesURL);
         quakeMarkers = new ArrayList<Marker>();
-
+        int index = 1;
         for (PointFeature feature : earthquakes) {
             //check if LandQuake
             if (isLand(feature)) {
@@ -107,16 +106,15 @@ public class EarthquakeCityMap extends PApplet {
             else {
                 quakeMarkers.add(new OceanQuakeMarker(feature));
             }
+            index = index + 1;
         }
 
         // could be used for debugging
         printQuakes();
-
         // (3) Add markers to map
         //     NOTE: Country markers are not added to the map.  They are used
         //           for their geometric properties
         map.addMarkers(quakeMarkers);
-        map.addMarkers(cityMarkers);
     }  // End setup
 
     public void draw() {
@@ -143,7 +141,6 @@ public class EarthquakeCityMap extends PApplet {
         ellipse(50, 175, 10, 10);
         fill(color(0, 0, 255));
         ellipse(50, 225, 5, 5);
-
         fill(0, 0, 0);
         text("5.0+ Magnitude", 75, 125);
         text("4.0+ Magnitude", 75, 175);
@@ -155,13 +152,13 @@ public class EarthquakeCityMap extends PApplet {
     // and returns true.  Notice that the helper method isInCountry will
     // set this "country" property already.  Otherwise it returns false.
     private boolean isLand(PointFeature earthquake) {
-
+        boolean isLand = false;
+        int index = 1;
         // IMPLEMENT THIS: loop over all countries to check if location is in any of them
-
-        // TODO: Implement this method using the helper method isInCountry
-
-        // not inside any country
-        return false;
+        for (Marker marker : countryMarkers) {
+            isLand = isInCountry(earthquake, marker);
+        }
+        return isLand;
     }
 
     // prints countries with number of earthquakes
@@ -170,9 +167,22 @@ public class EarthquakeCityMap extends PApplet {
     // the quakes to count how many occurred in that country.
     // Recall that the country markers have a "name" property,
     // And LandQuakeMarkers have a "country" property set.
-    private void printQuakes()
-    {
+    private void printQuakes() {
+        int numberOfEarthquakes = 0;
+        String name;
+        String countryMarker;
         // TODO: Implement this method
+        for (Marker country : countryMarkers) {
+            System.out.println(country.toString());
+            System.out.println(country.getProperty("name"));
+            for (Marker quake : quakeMarkers) {
+
+                println("Printing quake");
+                System.out.println(quake.toString());
+                System.out.println(quake);
+            }
+        }
+
     }
 
     // helper method to test whether a given earthquake is in a given country
