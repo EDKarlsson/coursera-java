@@ -33,6 +33,7 @@ public class CityMarker extends SimplePointMarker {
     // into any shape drawing methods.
     // e.g. pg.rect(x, y, 10, 10) will draw a 10x10 square
     // whose upper left corner is at position x, y
+
     /**
      * Implementation of method to draw marker on the map.
      */
@@ -41,25 +42,22 @@ public class CityMarker extends SimplePointMarker {
         pg.pushStyle();
 
         // TODO: Add code to draw a triangle to represent the CityMarker
-
+        pg.triangle(x, y, x, y, x, y);
         // Restore previous drawing style
         pg.popStyle();
     }
 
     /* Local getters for some city properties.  You might not need these
      * in module 4. 	 */
-    public String getCity()
-    {
+    public String getCity() {
         return getStringProperty("name");
     }
 
-    public String getCountry()
-    {
+    public String getCountry() {
         return getStringProperty("country");
     }
 
-    public float getPopulation()
-    {
+    public float getPopulation() {
         return Float.parseFloat(getStringProperty("population"));
     }
 }

@@ -23,6 +23,7 @@ import java.util.List;
  *
  * @author Your name here Date: July 17, 2015
  */
+@SuppressWarnings("Duplicates")
 public class EarthquakeCityMap extends PApplet {
 
     // We will use member variables, instead of local variables, to store the data
@@ -85,6 +86,8 @@ public class EarthquakeCityMap extends PApplet {
         //     STEP 1: load country features and markers
         List<Feature> countries = GeoJSONReader.loadData(this, countryFile);
         countryMarkers = MapUtils.createSimpleMarkers(countries);
+        println("Country properties : " + countries.get(1).getProperties());
+        println("countryMarkers: " + countryMarkers);
 
         //     STEP 2: read in city data
         List<Feature> cities = GeoJSONReader.loadData(this, cityFile);
@@ -168,21 +171,21 @@ public class EarthquakeCityMap extends PApplet {
     // Recall that the country markers have a "name" property,
     // And LandQuakeMarkers have a "country" property set.
     private void printQuakes() {
-        int numberOfEarthquakes = 0;
-        String name;
-        String countryMarker;
+        int numberOfEarthquakes;
+        String quakeName;
+        String countryName;
         // TODO: Implement this method
         for (Marker country : countryMarkers) {
-            System.out.println(country.toString());
-            System.out.println(country.getProperty("name"));
+            numberOfEarthquakes = 0;
             for (Marker quake : quakeMarkers) {
-
-                println("Printing quake");
-                System.out.println(quake.toString());
-                System.out.println(quake);
+                // For every country that has a name in the quake marker list increment the number of
+                //  quakes in that country
+                if (quake.getProperty("country") == country.getProperty("name")) {
+                    numberOfEarthquakes += 1;
+                }
             }
+            System.out.println("There are " + numberOfEarthquakes + " in " + country.getProperty("name"));
         }
-
     }
 
     // helper method to test whether a given earthquake is in a given country
